@@ -72,7 +72,8 @@ def index():
     graph_two.append(
         Bar(
             x = categories,
-            y = category_counts
+            y = category_counts,
+            marker_color='rgb(0, 127, 0)'
         )
     )
     layout_two = dict(title = 'Message Counts by Category',
@@ -94,7 +95,8 @@ def index():
     graph_three.append(
         Bar(
             x = multiLabel_counts.index, 
-            y = multiLabel_counts.values
+            y = multiLabel_counts.values,
+            marker_color='rgb(255, 134, 0)'
         )
 
     )
@@ -112,13 +114,14 @@ def index():
             )
 
     # add fourth visual
-    correlation_df = category_columns.iloc[:,1:].corr() # exclude child alone column
+    correlation_df = category_columns.iloc[:,1:].corr() 
     graph_four = []
     graph_four.append(
         Heatmap(
             z = correlation_df,
             x=categories,
-            y= categories
+            y= categories,
+            colorscale='Viridis'
         )
 
     )
