@@ -14,6 +14,8 @@ The project classifies a message to one of 36 categories for better disaster res
     - To run ML pipeline that trains classifier and saves
         `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
 
+Note: I tried to upload trained classifier classifier.pkl to GitHub, but due to the large size (>100MB), it was not possible. Please use above instructions to train classifier.
+
 2. Run the following command in the app's directory to run your web app.
     `python run.py`
 
