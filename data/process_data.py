@@ -60,8 +60,13 @@ def clean_data(df):
     for column in categories:
         categories[column] = categories[column].str[-1:]
     
-        # convert column from string to numeric
+        # convert from strings to numerical
         categories[column] = pd.to_numeric(categories[column]).astype(np.int64)
+
+        # if related columns, then assume 2 as 1's
+        if column == 'related':
+            # assume value of 2 is same as 1
+            categories[column] = categories[column].apply(lambda x: 1 if x==2 else x)
 
 
     ## concatenate cateogires dataframe with original dataframe df
@@ -71,10 +76,21 @@ def clean_data(df):
     # concatenate the original dataframe with the new `categories` dataframe
     df = pd.concat([df, categories], axis=1)
 
-    ## drop duplicates
+    # drop duplicates
     df = df.drop_duplicates(keep = 'first')
     # check number of duplicates is zero
     assert df[df.duplicated()].shape[0] == 0, 'Oops, some duplicates are not removed'
+
+    # check that each column/label has 2 classification labels
+    cols_drop = []
+    for column in df.columns[4:]:
+        if df[column].nunique() != 2:
+            cols_drop.append(column)
+    
+    # drop columns with only 1 classification label
+    for col in cols_drop:
+        print('Column {} has only 1 label and is dropped'.format(col))
+    df = df.drop(columns = cols_drop) 
     
     return df
 
@@ -90,7 +106,7 @@ def save_data(df, database_filename):
     engine = create_engine('sqlite:///'+database_filename)
 
     # save dataframe as TABLE named categorized_messages in database
-    df.to_sql('categorized_messages', engine, index=False)
+    df.to_sql('categorized_messages', engine, index=False, if_exists = 'replace')
 
 
 
