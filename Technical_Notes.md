@@ -103,3 +103,52 @@ For the positive label that we're interested in, we obtain the number of true po
 We evaluate the overall performance by averaging with two methods, macro and micro average. The macro-average method takes the average of a specific metric for all 35 labels. The micro-average finds, globally, the total number of TP, TN, FP, FN and calculate the metric from these global totals. Other Interesting metrics we could explore in the future are AUC-precision-recall and AUC-ROC.
 
 #### Final Model Performance
+
+Below is a snapshot of the print-out for model evaluation. The current classifier(s) can achieve a positive-label macro-averaged F1 score of 0.467. There is certainly more room for improvements for several labels, including 'offer', 'aid_center' and 'tools'. At the same time, since the optimization is cross-validated on only 30% of the dataset, and many optimized hyperparameters suggest use of 1000 n_estimators that is the upper-bound of the hyper-parameter space,  it makes sense to (1) tune hyperparameters more in the future with larger fraction of the dataset, without incurring large costs of optimization and (2) enlarge hyperparameter space to optimize for performance.
+
+```
+classification report for category: related
+              precision    recall  f1-score   support
+
+           0       0.61      0.48      0.54      1197
+           1       0.86      0.91      0.88      4046
+
+    accuracy                           0.81      5243
+   macro avg       0.73      0.69      0.71      5243
+weighted avg       0.80      0.81      0.80      5243
+
+classification report for category: request
+              precision    recall  f1-score   support
+
+           0       0.94      0.94      0.94      4365
+           1       0.69      0.71      0.70       878
+
+    accuracy                           0.90      5243
+   macro avg       0.81      0.82      0.82      5243
+weighted avg       0.90      0.90      0.90      5243
+
+classification report for category: offer
+              precision    recall  f1-score   support
+
+           0       1.00      0.71      0.83      5214
+           1       0.01      0.69      0.03        29
+
+    accuracy                           0.71      5243
+   macro avg       0.51      0.70      0.43      5243
+weighted avg       0.99      0.71      0.83      5243
+
+classification report for category: aid_related
+              precision    recall  f1-score   support
+
+           0       0.84      0.73      0.78      3060
+           1       0.68      0.81      0.74      2183
+
+    accuracy                           0.76      5243
+   macro avg       0.76      0.77      0.76      5243
+weighted avg       0.78      0.76      0.76      5243
+
+...
+
+Macro averaged precion: 0.42285031183558497, recall: 0.6117561756128841, fscore: 0.4670048709311117
+Micro averaged precion: 0.4626771536692142, recall: 0.747034862824967, fscore: 0.5714351173020527
+```
